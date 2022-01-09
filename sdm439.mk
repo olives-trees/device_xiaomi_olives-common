@@ -290,6 +290,7 @@ PRODUCT_PACKAGES += \
 PRODUCT_SOONG_NAMESPACES += \
     $(LOCAL_PATH)
 
+# Sounds app
 PRODUCT_PACKAGES += \
     GoogleSoundsPrebuilt
 
