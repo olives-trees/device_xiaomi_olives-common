@@ -290,6 +290,9 @@ PRODUCT_PACKAGES += \
 PRODUCT_SOONG_NAMESPACES += \
     $(LOCAL_PATH)
 
+PRODUCT_PACKAGES += \
+    GoogleSoundsPrebuilt
+
 # Telephony
 PRODUCT_PACKAGES += \
     ims-ext-common \
