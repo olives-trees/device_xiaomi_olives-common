@@ -184,5 +184,5 @@ WIFI_AVOID_IFACE_RESET_MAC_CHANGE := true
 WIFI_HIDL_UNIFIED_SUPPLICANT_SERVICE_RC_ENTRY := true
 WPA_SUPPLICANT_VERSION := VER_0_8_X
 
-# Inherit from the proprietary version
-include vendor/xiaomi/sdm439-common/BoardConfigVendor.mk
+# Inherit from vendor blobs
+include vendor/xiaomi/olives/BoardConfigVendor.mk

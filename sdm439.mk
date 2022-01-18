@@ -362,5 +362,5 @@ PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/wifi/WCNSS_cfg.dat:$(TARGET_COPY_OUT_VENDOR)/firmware/wlan/prima/WCNSS_cfg.dat \
     $(LOCAL_PATH)/wifi/WCNSS_qcom_cfg.ini:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/WCNSS_qcom_cfg.ini
 
-# Inherit the proprietary files
-$(call inherit-product, vendor/xiaomi/sdm439-common/sdm439-common-vendor.mk)
+# Inherit from vendor blobs
+$(call inherit-product, vendor/xiaomi/olives/olives-vendor.mk)
