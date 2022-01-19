@@ -135,3 +135,68 @@ void set_variant_props(const variant_info_t variant) {
     property_override("ro.bootimage.build.fingerprint", variant.build_fingerprint.c_str());
     property_override("ro.build.description", variant.build_description.c_str());
 }
+
+#ifdef LIBINIT_MSM8937_MODS
+/* From Magisk@native/jni/magiskhide/hide_utils.c */
+static const char *cts_prop_key[] =
+        { "ro.boot.vbmeta.device_state", "ro.boot.verifiedbootstate", "ro.boot.flash.locked",
+          "ro.boot.veritymode", "ro.boot.warranty_bit", "ro.warranty_bit",
+          "ro.debuggable", "ro.secure", "ro.build.type", "ro.build.tags",
+          "ro.vendor.boot.warranty_bit", "ro.vendor.warranty_bit",
+          "vendor.boot.vbmeta.device_state", nullptr };
+
+static const char *cts_prop_val[] =
+        { "locked", "green", "1",
+          "enforcing", "0", "0",
+          "0", "1", "user", "release-keys",
+          "0", "0",
+          "locked", nullptr };
+
+static const char *cts_late_prop_key[] =
+        { "vendor.boot.verifiedbootstate", nullptr };
+
+static const char *cts_late_prop_val[] =
+        { "green", nullptr };
+
+static void workaround_cts_properties() {
+	// Hide all sensitive props
+	for (int i = 0; cts_prop_key[i]; ++i) {
+		property_override(cts_prop_key[i], cts_prop_val[i]);
+	}
+	for (int i = 0; cts_late_prop_key[i]; ++i) {
+		property_override(cts_late_prop_key[i], cts_late_prop_val[i]);
+	}
+	// Xiaomi cross region flash
+	property_override("ro.boot.hwc", "GLOBAL");
+	property_override("ro.boot.hwcountry", "GLOBAL");
+}
+
+static const char *build_keys_props[] =
+{
+    "ro.build.tags",
+    "ro.odm.build.tags",
+    "ro.product.build.tags",
+    "ro.system.build.tags",
+    "ro.system_ext.build.tags",
+    "ro.vendor.build.tags",
+    nullptr
+};
+
+void load_mods()
+{
+    /* Workaround CTS */
+    workaround_cts_properties();
+
+    /* Custom Build Fingerprint */
+    set_ro_build_prop("fingerprint", "google/redfin/redfin:12/SQ1A.220105.002/7961164:user/release-keys");
+    property_override("ro.bootimage.build.fingerprint", "google/redfin/redfin:12/SQ1A.220105.002/7961164:user/release-keys");
+
+    /* Override security patches */
+    property_override("ro.vendor.build.security_patch", "2022-01-05");
+
+    /* Spoof Build keys */
+	for (int i = 0; build_keys_props[i]; ++i) {
+		property_override(build_keys_props[i], "release-keys");
+	}
+}
+#endif
